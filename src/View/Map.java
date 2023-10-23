@@ -2,6 +2,7 @@ package View;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Shape;
@@ -14,11 +15,14 @@ import javax.swing.JPanel;
 import Controller.MoveController;
 import Controller.ShootController;
 import Model.Bullet;
+import Model.Hp;
 import Model.Jet;
 
 public class Map extends JPanel implements Runnable {
 	public static Bullet bullet;
 	public static Jet northJet, southJet;
+	public static Hp northJetHpbackground, southJetHpbackground;
+	public static Hp northJetHp, southJetHp;
 	public static boolean moveNorthLeft, moveNorthRight, moveNorthUp, moveNorthDown, northFire, northSpecial;
 	public static boolean moveSouthLeft, moveSouthRight, moveSouthUp, moveSouthDown, southFire, southSpecial;
 	private Thread loop; // the loop
@@ -50,6 +54,13 @@ public class Map extends JPanel implements Runnable {
 		reload = 10;
 		numToShoot = 1;
 
+		//north jet hp
+		northJetHpbackground = new Hp(3, App.HEIGHT / 2 - 32, 200, 30);
+		northJetHp = new Hp(3, App.HEIGHT / 2 - 32, 200, 30);
+
+		//south jet hp
+		southJetHpbackground = new Hp(App.WIDTH - 201, App.HEIGHT / 2 + 2, 200, 30);
+		southJetHp = new Hp(App.WIDTH - 201, App.HEIGHT / 2 + 2, 200, 30);
 		loop = new Thread(this);
 		loop.start();
 
@@ -61,6 +72,29 @@ public class Map extends JPanel implements Runnable {
 		Graphics2D g2d = (Graphics2D) g;
 
 		///// drawing
+		g2d.setColor(Color.blue);
+		g2d.drawLine(0, App.HEIGHT / 2, App.WIDTH / 2, App.HEIGHT / 2);
+
+		g2d.setColor(Color.red);
+		g2d.setFont(new Font("Arial", Font.BOLD, 30));
+		g2d.drawString("VS", App.WIDTH / 2, App.HEIGHT / 2);
+
+		g2d.setColor(Color.blue);
+		g2d.drawLine(App.WIDTH / 2 + 35, App.HEIGHT / 2, App.WIDTH, App.HEIGHT / 2);
+
+		// north hp
+		g2d.setColor(Color.red);
+		g2d.drawRect(northJetHpbackground.getX(), northJetHpbackground.getY(), (int) northJetHpbackground.getWidth(),
+				northJetHpbackground.getHeight());
+		g2d.setColor(Color.GREEN);
+		g2d.fillRect(northJetHp.getX(), northJetHp.getY(), (int) northJetHp.getWidth(), northJetHp.getHeight());
+
+		// south hp
+		g2d.setColor(Color.red);
+		g2d.drawRect(southJetHpbackground.getX(), southJetHpbackground.getY(), (int) southJetHpbackground.getWidth(),
+				southJetHpbackground.getHeight());
+		g2d.setColor(Color.GREEN);
+		g2d.fillRect(southJetHp.getX(), southJetHp.getY(), (int) southJetHp.getWidth(), southJetHp.getHeight());
 		//north jet
 		g2d.setColor(Color.RED);
 		g2d.drawRect((int) northJet.getX(), (int) northJet.getY(), northJet.getW(), northJet.getH());
@@ -80,7 +114,7 @@ public class Map extends JPanel implements Runnable {
 		g2d.drawPolygon(new int[] {(int) southJet.getX(), (int) southJet.getX() + (int) southJet.getW(), (int) southJet.getX() + (int) southJet.getW() / 2}, 
 						new int[] {(int) southJet.getY(), (int) southJet.getY(), (int) southJet.getY() - 15}, 3);
 		//boundary
-		g2d.drawLine(0, App.HEIGHT / 2, App.WIDTH, App.HEIGHT / 2);
+		//g2d.drawLine(0, App.HEIGHT / 2, App.WIDTH, App.HEIGHT / 2);
 		
 		///// drawing the bullets
 		// north bullets
