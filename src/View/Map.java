@@ -207,6 +207,28 @@ public class Map extends JPanel implements Runnable {
 			}
 
 		}
+		// hp
+
+		// north hp
+
+		for (Bullet bullet : southBullets) {
+
+			if (bullet.getX() >= northJet.getX() - 23 && bullet.getX() <= northJet.getX() + 40
+					&& bullet.getY() >= northJet.getY() - 20 && bullet.getY() <= northJet.getY() + 40) {
+
+				northJetHp.decreaseWidth(0.08);
+			}
+
+		}
+
+		// south hp
+		for (Bullet bullet : northBullets) {
+			if (bullet.getY() >= southJet.getY() - 20 && bullet.getY() <= southJet.getY() + 40
+					&& bullet.getX() >= southJet.getX() - 23 && bullet.getX() <= southJet.getX() + 40) {
+				southJetHp.decreaseWidth(0.08);
+
+			}
+		}
 
 	}
 
